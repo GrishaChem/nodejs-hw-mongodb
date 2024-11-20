@@ -16,4 +16,4 @@ const bootStrap = async () => {
     }
 }
 
-btoa
+bootStrap()
