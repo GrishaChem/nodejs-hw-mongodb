@@ -2,7 +2,7 @@ import express from "express";
 import pinoHttp from 'pino-http';
 import cors from 'cors';                            
 import dotenv from 'dotenv';
-import { appGet } from "./services/contacts.js";
+import { appGet, appGetById } from "./services/contacts.js";
 dotenv.config();
 
 export const app = express();
@@ -11,6 +11,8 @@ export const app = express();
 const logger = pinoHttp();
 
 appGet()
+
+appGetById()
 
 console.log(process.env.MONGODB_URL);
 

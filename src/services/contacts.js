@@ -10,3 +10,16 @@ export const appGet = () => {
         res.send({ status: 200, message: "Successfully found contacts!",data: contacts })
     })
 }
+
+export const appGetById = () => {
+    app.get('/contacts/:contactId', async (req, res) => {
+        
+        const { contactId } = req.params;
+        
+        const contactss = await Contact.findById(contactId);
+
+        console.log(contactss);
+
+        res.send({ status: 200, message: `Successfully found contact with id ${contactId}!`, data: contactss })
+    })
+}
