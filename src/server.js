@@ -23,7 +23,7 @@ app.use(cors());
 console.log(process.env.PORT);
 
 app.use((req, res, next) => {
-    res.status(404).send({message: 'Not found'})                            
+    res.status(404).send({message: 'Contact not found'})                            
 })
 
 export const setUpServer = () => {

@@ -25,3 +25,4 @@ const contactSchema = new mongoose.Schema({
 }, {timestamps: true})
 export const Contact = mongoose.model("Contact", contactSchema)
   
+        
