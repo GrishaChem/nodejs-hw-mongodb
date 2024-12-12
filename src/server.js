@@ -6,7 +6,9 @@ import { getContacts, getContactById } from './services/contacts.js'; // Фун�
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routers/contacts.js';
-import auth from './routers/auth.js';
+import authRouter from './routers/auth.js';
+import { authenticate } from './middlewares/auth.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 export const app = express();
@@ -14,9 +16,10 @@ export const app = express();
 const logger = pinoHttp();
 app.use(logger);
 app.use(cors());
+app.use(cookieParser());
 
-app.use('/contacts', router);
-app.use('/auth', auth);
+app.use('/contacts', authenticate, router);
+app.use('/auth', authRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
