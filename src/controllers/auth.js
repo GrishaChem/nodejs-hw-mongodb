@@ -17,7 +17,7 @@ export async function registerController(req, res) {
   console.log(user);
 
   res.send({
-    status: 200,
+    status: 201,
     message: 'Successfully registered a user!',
     data: user,
   });
