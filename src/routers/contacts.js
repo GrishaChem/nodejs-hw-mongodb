@@ -16,15 +16,15 @@ const router = express.Router();
 
 const jsonParser = express.json();
 
-router.get('/contacts', ctrlWrapper(getContactsController)); 
+router.get('/', ctrlWrapper(getContactsController)); 
 
-router.get('/contacts/:contactId', isValidId, ctrlWrapper(getContactByIdController)); 
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController)); 
 
-router.post('/contacts', jsonParser, validateBody(contactsSchema), ctrlWrapper(createContactsController)); 
+router.post('/', jsonParser, validateBody(contactsSchema), ctrlWrapper(createContactsController)); 
 
-router.delete('/contacts/:contactId', isValidId, ctrlWrapper(deleteContactByIdController)); 
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactByIdController)); 
 
-router.patch('/contacts/:contactId',jsonParser, validateBody(updateContactsSchema), isValidId, ctrlWrapper(updateContactByIdController)); 
+router.patch('/:contactId',jsonParser, validateBody(updateContactsSchema), isValidId, ctrlWrapper(updateContactByIdController)); 
 
 
 
