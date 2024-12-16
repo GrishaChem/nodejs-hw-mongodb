@@ -3,6 +3,9 @@ import createHttpError from 'http-errors';
 import { User } from '../db/models/user.js';
 import { Session } from '../db/models/session.js';
 import crypto from 'node:crypto';
+import { requestResetPasswordController } from '../controllers/auth.js';
+import jwt from 'jsonwebtoken';
+import { sendMail } from '../utils/sendMail.js';
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
@@ -65,4 +68,56 @@ export async function refreshSession(sessionId, refreshToken) {
     accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
+}
+
+export async function requestResetPassword(email) {
+  const user = await User.findOne({ email });
+
+  if (user === null) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  const resetToken = jwt.sign(
+    { sub: user._id, email: user.email },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '15m',
+    },
+  );
+
+  await sendMail({
+    from: 'hryhoryy.chemerys@gmail.com',
+    to: user.email,
+    subject: 'Reset password',
+    html: `<p>To reset your password please viist this <a href="http://localhost:12342/auth/reset-password?token=${resetToken}">link</a></p>`,
+  });
+
+  console.log(resetToken);
+}
+
+export async function ResetPassword(newPassword, token) {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findOne({ _id: decoded.sub, email: decoded.email });
+
+    if (user === null) {
+      throw createHttpError(404, 'User not found');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+
+    console.log(decoded);
+  } catch (error) {
+    if (
+      error.name === 'JsonWebTokenError' ||
+      error.name === 'TokenExpiredError'
+    ) {
+      throw createHttpError(401, 'Token error');
+    }
+    console.log(error);
+    throw error;
+  }
 }
