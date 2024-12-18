@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { User } from '../db/models/user.js';
@@ -84,6 +85,9 @@ export async function requestResetPassword(email) {
       expiresIn: '15m',
     },
   );
+  console.log('11111111111');
+
+  console.log('RESET TOKEN: ', resetToken);
 
   await sendMail({
     from: 'hryhoryy.chemerys@gmail.com',
@@ -91,8 +95,6 @@ export async function requestResetPassword(email) {
     subject: 'Reset password',
     html: `<p>To reset your password please viist this <a href="http://localhost:12342/auth/reset-password?token=${resetToken}">link</a></p>`,
   });
-
-  console.log(resetToken);
 }
 
 export async function ResetPassword(newPassword, token) {

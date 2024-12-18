@@ -9,7 +9,6 @@ import router from './routers/contacts.js';
 import authRouter from './routers/auth.js';
 import { authenticate } from './middlewares/auth.js';
 import cookieParser from 'cookie-parser';
-dotenv.config();
 
 export const app = express();
 
@@ -20,6 +19,8 @@ app.use(cookieParser());
 
 app.use('/contacts', authenticate, router);
 app.use('/auth', authRouter);
+
+dotenv.config();
 
 app.use(notFoundHandler);
 app.use(errorHandler);
