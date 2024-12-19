@@ -93,7 +93,7 @@ export async function requestResetPassword(email) {
     from: 'hryhoryy.chemerys@gmail.com',
     to: user.email,
     subject: 'Reset password',
-    html: `<p>To reset your password please viist this <a href="http://localhost:12342/auth/reset-password?token=${resetToken}">link</a></p>`,
+    html: `<p>To reset your password please visit this <a href="https://nodejs-hw-mongodb-s300.onrender.com/auth/reset-password?token=${resetToken}">link</a></p>`,
   });
 }
 
