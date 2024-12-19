@@ -1,3 +1,5 @@
+import * as fs from 'node:fs';
+import path from 'node:path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
@@ -7,6 +9,12 @@ import crypto from 'node:crypto';
 import { requestResetPasswordController } from '../controllers/auth.js';
 import jwt from 'jsonwebtoken';
 import { sendMail } from '../utils/sendMail.js';
+import handlebars from 'handlebars';
+
+const RESET_PASSWORD_TEMPLATE = fs.readFileSync(
+  path.resolve('src/templates/reset-password.hbs'),
+  { encoding: 'UTF_8' },
+);
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
@@ -89,11 +97,15 @@ export async function requestResetPassword(email) {
 
   console.log('RESET TOKEN: ', resetToken);
 
+  const html = handlebars.compile(RESET_PASSWORD_TEMPLATE);
+
   await sendMail({
     from: 'nodejsmentor@gmail.com',
     to: user.email,
     subject: 'Reset password',
-    html: `<p>To reset your password please visit this <a href="https://nodejs-hw-mongodb-s300.onrender.com/auth/reset-password?token=${resetToken}">link</a></p>`,
+    html: html({
+      resetToken,
+    }),
   });
 }
 
