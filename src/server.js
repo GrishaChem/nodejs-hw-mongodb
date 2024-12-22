@@ -1,7 +1,7 @@
+import path from 'node:path';
 import express, { application } from 'express';
 import pinoHttp from 'pino-http';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { getContacts, getContactById } from './services/contacts.js'; // Функції для роботи з базою
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -12,6 +12,8 @@ import cookieParser from 'cookie-parser';
 
 export const app = express();
 
+app.use('/photos', express.static(path.resolve('src/public/photos')));
+
 const logger = pinoHttp();
 app.use(logger);
 app.use(cors());
@@ -20,8 +22,11 @@ app.use(cookieParser());
 app.use('/contacts', authenticate, router);
 app.use('/auth', authRouter);
 
-dotenv.config();
-
+console.log('Cloudinary Config:', {
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+});
 app.use(notFoundHandler);
 app.use(errorHandler);
 
