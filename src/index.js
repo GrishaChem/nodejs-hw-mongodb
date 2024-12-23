@@ -1,4 +1,5 @@
-console.log('Loaded environment variables:', {
+
+console.log('INDEXJS ENV:', {
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,

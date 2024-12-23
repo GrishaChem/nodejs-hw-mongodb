@@ -58,7 +58,12 @@ export async function createContactsController(req, res) {
   if (typeof req.file !== 'undefined') {
     if (process.env.ENABLE_CLOUDINARY === 'true') {
       const result = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+
       console.log(result);
+
+      photo = result.secure_url;
+      console.log(photo);
     } else {
       console.log(req.file);
       await fs.rename(
@@ -66,7 +71,7 @@ export async function createContactsController(req, res) {
         path.resolve('src', 'public', 'photos', req.file.filename),
       );
 
-      photo = req.file.filename;
+      photo = `http://localhost:12342/photos/${req.file.filename}`;
     }
   }
 
@@ -79,7 +84,9 @@ export async function createContactsController(req, res) {
     userId: req.user.id,
     photo,
   };
+  console.log('Contact data before saving:', contact); // Лог перед сохранением
   const result = await createContacts(contact);
+  console.log('Saved contact:', result); // Лог после сохранения
   res.status(201).send({
     status: 201,
     message: 'Successfully created a contact!',
@@ -99,6 +106,7 @@ export async function deleteContactByIdController(req, res) {
   res.status(204).send({ status: 204 });
 }
 export async function updateContactByIdController(req, res) {
+  let photo = null;
   const { contactId } = req.params;
 
   const contact = {
