@@ -95,7 +95,7 @@ export async function requestResetPassword(email) {
   );
   console.log('11111111111');
 
-  console.log('RESET TOKEN: ', resetToken);
+  // console.log('RESET TOKEN: ', resetToken);
 
   const html = handlebars.compile(RESET_PASSWORD_TEMPLATE);
 
