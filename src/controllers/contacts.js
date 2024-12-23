@@ -107,7 +107,28 @@ export async function deleteContactByIdController(req, res) {
 }
 export async function updateContactByIdController(req, res) {
   let photo = null;
+  if (typeof req.file !== 'undefined') {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      const result = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+
+      console.log(result);
+
+      photo = result.secure_url;
+      console.log(photo);
+    } else {
+      console.log(req.file);
+      await fs.rename(
+        req.file.path,
+        path.resolve('src', 'public', 'photos', req.file.filename),
+      );
+
+      photo = `http://localhost:12342/photos/${req.file.filename}`;
+    }
+  }
   const { contactId } = req.params;
+
+  console.log('REQFILE', req.body);
 
   const contact = {
     name: req.body.name,
@@ -115,7 +136,10 @@ export async function updateContactByIdController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    photo,
   };
+
+  console.log('UPDATED CONTACT: ', contact);
 
   const result = await updateContacts(contactId, contact);
 
