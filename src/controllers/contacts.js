@@ -136,8 +136,11 @@ export async function updateContactByIdController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
-    photo,
   };
+
+  if (photo !== null) {
+    contact.photo = photo;
+  }
 
   console.log('UPDATED CONTACT: ', contact);
 

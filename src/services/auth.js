@@ -93,11 +93,15 @@ export async function requestResetPassword(email) {
       expiresIn: '15m',
     },
   );
+  console.log(resetToken);
+
   console.log('11111111111');
 
   // console.log('RESET TOKEN: ', resetToken);
 
   const html = handlebars.compile(RESET_PASSWORD_TEMPLATE);
+
+  console.log(resetToken);
 
   await sendMail({
     from: 'nodejsmentor@gmail.com',
