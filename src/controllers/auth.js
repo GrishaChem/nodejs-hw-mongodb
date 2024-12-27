@@ -98,6 +98,7 @@ export async function requestResetPasswordController(req, res) {
 
 export async function resetPasswordController(req, res) {
   const { password, token } = req.body;
+  console.log('auth/controller', token);
 
   ResetPassword(password, token);
 
