@@ -44,7 +44,7 @@ auth.post(
   ctrlWrapper(requestResetPasswordController),
 );
 auth.post(
-  '/reset-password',
+  '/reset-pwd',
   jsonParser,
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
