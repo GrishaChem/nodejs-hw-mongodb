@@ -139,3 +139,37 @@ export async function ResetPassword(newPassword, token) {
     throw error;
   }
 }
+
+export async function loginOrRegister(payload) {
+  const user = await User.findOne({ email: payload.email });
+
+  const password = await bcrypt.hash(
+    crypto.randomBytes(30).toString('base64'),
+    10,
+  );
+
+  if (user === null) {
+    const createdUser = await User.create({
+      email: payload.email,
+      name: payload.name,
+      password,
+    });
+    return Session.create({
+      userId: createdUser._id,
+      accessToken: crypto.randomBytes(30).toString('base64'),
+      refreshToken: crypto.randomBytes(30).toString('base64'),
+      accessTokenValidUntil: new Date(Date.now() + 180 * 60 * 1000),
+      refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    });
+  }
+
+  await Session.deleteOne({ userId: user._id });
+
+  return Session.create({
+    userId: user._id,
+    accessToken: crypto.randomBytes(30).toString('base64'),
+    refreshToken: crypto.randomBytes(30).toString('base64'),
+    accessTokenValidUntil: new Date(Date.now() + 180 * 60 * 1000),
+    refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  });
+}
