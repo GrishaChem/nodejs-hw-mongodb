@@ -139,7 +139,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -485,6 +485,11 @@
                     ],
                     "example": "personal",
                     "default": "personal"
+                  },
+                  "email": {
+                    "description": "Contact email",
+                    "type": "string",
+                    "example": "asd@gmail.com"
                   },
                   "userId": {
                     "description": "User's ID who owns this contact",
