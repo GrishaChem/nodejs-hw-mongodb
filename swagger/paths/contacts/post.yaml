@@ -29,6 +29,10 @@ requestBody:
             enum: ['work', 'home', 'personal']
             example: 'personal'
             default: 'personal'
+          email:
+            description: "Contact email"
+            type: string
+            example: asd@gmail.com
           userId:
               description: "User's ID who owns this contact"
               type: string
