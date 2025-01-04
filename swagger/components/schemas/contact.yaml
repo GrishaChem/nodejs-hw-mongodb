@@ -5,6 +5,10 @@ required:
   - contactType
   - userId
 properties:
+  _id:
+    description: Contact id
+    type: string
+    example: 66a92312c1de214c68f17d10
   name:
     description: "Contact's name"
     type: string
