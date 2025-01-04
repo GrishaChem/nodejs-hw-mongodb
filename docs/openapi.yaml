@@ -10,7 +10,7 @@ info:
 
 servers:
   - url: 127.0.0.1:3000
-#  - url: #посилання на задеплоєний сайт
+  - url: https://nodejs-hw-mongodb-s300.onrender.com
 tags:
   - name: Contacts
     description: Operation with contacts
