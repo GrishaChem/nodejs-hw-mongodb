@@ -163,11 +163,6 @@
                     "example": "personal",
                     "default": "personal"
                   },
-                  "userId": {
-                    "description": "User's ID who owns this contact",
-                    "type": "string",
-                    "example": "66a92312c1de214c68f17d10"
-                  },
                   "isFavourite": {
                     "description": "Whether the contact is marked as favourite",
                     "type": "boolean",
@@ -490,11 +485,6 @@
                     "description": "Contact email",
                     "type": "string",
                     "example": "asd@gmail.com"
-                  },
-                  "userId": {
-                    "description": "User's ID who owns this contact",
-                    "type": "string",
-                    "example": "66a92312c1de214c68f17d10"
                   },
                   "isFavourite": {
                     "description": "Whether the contact is marked as favourite",
