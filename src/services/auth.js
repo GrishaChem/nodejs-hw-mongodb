@@ -38,6 +38,7 @@ export async function loginUser(email, password) {
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 }
+
 export async function logoutUser(sessionId) {
   await Session.deleteOne({ _id: sessionId });
 }
@@ -52,6 +53,7 @@ export async function refreshSession(sessionId, refreshToken) {
   if (session.refreshToken !== refreshToken) {
     throw createHttpError(401, 'Session not found');
   }
+
   if (session.refreshTokenValidUntil < new Date()) {
     throw createHttpError(401, 'Refresh token is not valid');
   }
