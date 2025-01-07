@@ -87,7 +87,7 @@ export async function updateContactByIdController(req, res) {
     contactType: req.body.contactType,
   };
 
-  const result = await updateContacts(contactId, contact);
+  const result = await updateContacts(contactId, contact, req.user.id);
 
   if (result === null) {
     throw new createHttpError.NotFound('Contact not found');
